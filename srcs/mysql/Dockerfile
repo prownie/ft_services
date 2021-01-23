@@ -1,0 +1,23 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Dockerfile                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rpichon <rpichon@student.42lyon.fr>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/12/02 10:46:48 by atrouill          #+#    #+#              #
+#    Updated: 2021/01/22 14:35:48 by rpichon          ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
+FROM alpine:3.12.3
+
+RUN apk add mysql mysql-client openrc
+
+ADD srcs/launch.sh .
+
+RUN sed -i "s|skip-networking|skip-networking=false|" /etc/my.cnf.d/mariadb-server.cnf
+
+EXPOSE 3306
+
+CMD [ "/bin/ash", "launch.sh" ]

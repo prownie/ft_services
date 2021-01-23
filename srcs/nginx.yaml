@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  selector:
+    app: nginx
+  type: LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+---
+apiVersion: apps/v1 #Quelle version de l'API Kubernetes vous utilisez pour créer cet objet
+kind: Deployment #Quel type d'objet vous souhaitez créer
+metadata: #Données qui aident à identifier l'objet de manière unique, y compris une namechaîne UID, et facultatifnamespace
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec: #Quel état vous désirez pour l'objet
+  selector:
+    matchLabels: #indique à quels pods le déploiement s'appliquera
+      app: nginx
+      tier: nginx
+  strategy:
+    type: Recreate #redemarrage auto niquel!
+  template:
+    metadata:
+      labels:
+        app: nginx
+        tier: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: my-nginx
+        imagePullPolicy: Never
+        env:
+        - name: LB_IP
+          valueFrom:
+            secretKeyRef:
+              name: pass-secret
+              key: loadbalancer_ip
+        - name: SSH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pass-secret
+              key: ssh_pass
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 22

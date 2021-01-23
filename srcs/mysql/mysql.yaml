@@ -1,0 +1,51 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    mysql.yaml                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rpichon <rpichon@student.42lyon.fr>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/12/02 11:13:03 by atrouill          #+#    #+#              #
+#    Updated: 2021/01/23 12:15:06 by rpichon          ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
+# svc-mariadb.default.svc.cluster.local
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql-image
+        imagePullPolicy: Never
+        env:
+          - name: MYSQL_ADMIN_PASS
+            valueFrom:
+              secretKeyRef:
+                name: pass-secret
+                key: mysql_admin_pass
+          - name: MYSQL_WP_USERPASS
+            valueFrom:
+              secretKeyRef:
+                name: pass-secret
+                key: mysql_wordpress_user_pass
+        volumeMounts:
+          - name: mysql-pv
+            mountPath: /var/lib/mysql
+        ports:
+        - containerPort: 3306
+      volumes:
+        - name: mysql-pv
+          persistentVolumeClaim:
+            claimName: mysql-pvc
