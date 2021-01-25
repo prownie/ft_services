@@ -1,0 +1,8 @@
+lftp -u login,pwd 192.168.99.220
+
+
+no veritfy-certificate:
+set ssl:verify-certificate no
+
+check certif ftps :
+openssl s_client -connect 192.168.99.220:21 -starttls ftp -servername 192.168.99.220

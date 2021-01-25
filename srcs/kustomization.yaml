@@ -1,10 +1,13 @@
 resources:
-  - nginx.yaml
-  - mysql/mysql-pvc.yaml
-  - mysql/mysql-svc.yaml
-  - mysql/mysql.yaml
-  - wordpress/wordpress.yaml
-  - wordpress/wordpress-svc.yaml
+  - nginx/srcs/nginx.yaml
+  - mysql/srcs/mysql-pvc.yaml
+  - mysql/srcs/mysql-svc.yaml
+  - mysql/srcs/mysql.yaml
+  - wordpress/srcs/wordpress.yaml
+  - wordpress/srcs/wordpress-svc.yaml
   - metallb_configmap.yaml
   - secret.yaml
-# - mysql.yaml
+  - phpmyadmin/srcs/phpmyadmin-svc.yaml
+  - phpmyadmin/srcs/phpmyadmin.yaml
+  - ftps/srcs/ftps.yaml
+  - ftps/srcs/ftps-svc.yaml

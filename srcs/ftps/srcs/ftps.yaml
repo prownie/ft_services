@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps
+spec:
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - name: ftps
+        image: ftps-image
+        imagePullPolicy: Never
+        env:
+          - name: FTPS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pass-secret
+                key: ftps_pass
+          - name: LB_IP
+            valueFrom:
+              secretKeyRef:
+                name: pass-secret
+                key: loadbalancer_ip
+        ports:
+        - containerPort: 21
+        - containerPort: 990
+        - containerPort: 10090
+        - containerPort: 10091
+        - containerPort: 10092
+        - containerPort: 10093
+        - containerPort: 10094
+        - containerPort: 10095
+        - containerPort: 10096
+        - containerPort: 10097
+        - containerPort: 10098
+        - containerPort: 10099
+        - containerPort: 10010

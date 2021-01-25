@@ -57,6 +57,11 @@ spec: #Quel état vous désirez pour l'objet
             secretKeyRef:
               name: pass-secret
               key: ssh_pass
+        - name: WPPORT
+          valueFrom:
+            secretKeyRef:
+              name: pass-secret
+              key: wordpress_port
         ports:
         - containerPort: 80
         - containerPort: 443

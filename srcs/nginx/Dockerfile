@@ -1,22 +1,10 @@
-FROM nginx:alpine
+FROM    alpine:3.12.3
 
-RUN apk add --update openssh
+RUN     apk add nginx openrc openssl openssh
+RUN		openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=Company, Inc./CN=mydomain.com" -addext "subjectAltName=DNS:mydomain.com" -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt;
+ADD srcs/nginx.conf /etc/nginx/nginx.conf
+ADD srcs/launch.sh /launch.sh
+ADD	srcs/index.html /www/index.html
 
-#ADD ssl/nginx.crt /etc/nginx/ssl/nginx.crt
-#ADD ssl/nginx.key /etc/nginx/ssl/nginx.key
-#ADD ssh/id_rsa /etc/ssh/ssh_host_rsa_key
-#ADD ssh/id_rsa.pub /authorized_keys
-#ADD ssh/sshd_config /etc/ssh/sshd_config
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD entrypoint /entrypoint
-
-ENTRYPOINT sh /entrypoint
-
-WORKDIR /bin
-RUN wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \
-	&& mv mkcert-v1.4.1-linux-amd64 mkcert \
-	&& chmod +x mkcert \
-	&& mkcert -install \
-	&& mkcert localhost
-
-EXPOSE 443 80 30322
+EXPOSE  80 443 30322
+CMD             [ "/bin/ash", "/launch.sh" ]
