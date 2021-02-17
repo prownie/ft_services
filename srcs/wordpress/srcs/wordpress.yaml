@@ -31,6 +31,13 @@ spec:
               secretKeyRef:
                 name: pass-secret
                 key: wordpress_admin_pass
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 5050
+          initialDelaySeconds: 30
+          periodSeconds: 5
         ports:
         - containerPort: 5050
 

@@ -26,6 +26,14 @@ spec:
               secretKeyRef:
                 name: pass-secret
                 key: loadbalancer_ip
+        livenessProbe:
+          exec:
+            command:
+            - service
+            - vsftpd
+            - status
+          initialDelaySeconds: 20
+          periodSeconds: 5
         ports:
         - containerPort: 21
         - containerPort: 990

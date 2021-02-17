@@ -1,5 +1,6 @@
 resources:
   - nginx/srcs/nginx.yaml
+  - nginx/srcs/nginx-svc.yaml
   - mysql/srcs/mysql-pvc.yaml
   - mysql/srcs/mysql-svc.yaml
   - mysql/srcs/mysql.yaml
@@ -11,3 +12,12 @@ resources:
   - phpmyadmin/srcs/phpmyadmin.yaml
   - ftps/srcs/ftps.yaml
   - ftps/srcs/ftps-svc.yaml
+  - influxdb/influxdb-pvc.yaml
+  - influxdb/influxdb-svc.yaml
+  - influxdb/influxdb.yaml
+  - grafana/grafana.yaml
+  - grafana/grafana-svc.yaml
+  - grafana/grafana-pvc.yaml
+  - telegraf/telegraf-rbac.yaml
+  - telegraf/telegraf-svc.yaml
+  - telegraf/telegraf.yaml

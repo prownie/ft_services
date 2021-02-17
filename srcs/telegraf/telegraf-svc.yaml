@@ -1,16 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-svc
+  name: svc-telegraf
   annotations:
     metallb.universe.tf/address-pool: default
     metallb.universe.tf/allow-shared-ip: shared
 spec:
   selector:
-    app: wordpress
-  type: LoadBalancer
+    app: telegraf
+  type: ClusterIP
   ports:
-    - name: https
-      protocol: TCP
-      port: 5050
-      targetPort: 5050
+  - name: telegraf
+    port: 8125
+    targetPort: 8125
+  - name: health
+    port: 8080
+    targetPort: 8080

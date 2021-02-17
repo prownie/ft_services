@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb-svc
+spec:
+  selector:
+    app: influxdb
+  type: ClusterIP
+  ports:
+  - port: 8086
+    name: database
+    targetPort: 8086
+  - port: 8083
+    name: pannel
+    targetPort: 8083

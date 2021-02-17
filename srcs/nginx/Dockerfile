@@ -5,6 +5,6 @@ RUN		openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=Company, Inc./CN=my
 ADD srcs/nginx.conf /etc/nginx/nginx.conf
 ADD srcs/launch.sh /launch.sh
 ADD	srcs/index.html /www/index.html
-
+ADD srcs/livenessprobe.sh	/
 EXPOSE  80 443 30322
 CMD             [ "/bin/ash", "/launch.sh" ]
